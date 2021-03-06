@@ -3,6 +3,11 @@ import controller from '../controllers/letter.controller';
 
 const router = express.Router();
 
-router.get('/ping', controller.listLetters);
+router.get('/list', controller.listLetters);
+router.get('/read/:id', controller.readLetter);
+router.post('/create', controller.createLetter);
+router.put('/update/:id', controller.updateLetter);
+router.patch('/changeStatus/:id', controller.changeLetterStatus);
+router.delete('/delete/:id', controller.deleteLetter);
 
 export = router;

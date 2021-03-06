@@ -1,8 +1,13 @@
 import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
-import logging from './config/logging';
+
+import 'reflect-metadata';
+import { createConnection } from 'typeorm';
+
 import config from './config/config';
+import logging from './config/logging';
+import { Letter } from './entity/Letter';
 import letterRoutes from './routes/letter.route';
 
 const NAMESPACE = 'Server';
