@@ -1,21 +1,21 @@
-import { Request, Response, NextFunction } from 'express';
-import 'reflect-metadata';
-import { createConnection, DeleteResult } from 'typeorm';
 import bcrypt from 'bcrypt';
+import 'reflect-metadata';
 import { User, UserRole } from '../entity/User';
-import { Session, SessionStatus } from '../entity/Session';
 import { extractIpFromRequest } from '../config/common';
+import { createConnection, DeleteResult } from 'typeorm';
+import { Request, Response, NextFunction } from 'express';
+import { Session, SessionStatus } from '../entity/Session';
 
 const connection = createConnection({
     type: 'mysql',
-    host: 'us-cdbr-east-03.cleardb.com',
-    port: 3306,
-    username: 'bbfb737b2f125d',
-    password: 'a9881502',
-    database: 'heroku_c47c6fe10a176fe',
-    synchronize: true,
     logging: false,
-    entities: ['source/entity/*.ts']
+    synchronize: true,
+    host: process.env.DATABASE_HOST,
+    entities: ['source/entity/*.ts'],
+    database: process.env.DATABASE_NAME,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: parseInt(process.env.DATABASE_PORT as string)
 });
 
 const register = async (req: Request, res: Response) => {
@@ -192,12 +192,12 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
+    login,
+    logout,
+    register,
     readUser,
     listUsers,
     deleteUser,
-    register,
-    login,
-    logout,
     updateUser,
     changeUserRole
 };

@@ -1,20 +1,22 @@
-import { Request, Response, NextFunction } from 'express';
 import 'reflect-metadata';
-import { createConnection, DeleteResult, getConnection } from 'typeorm';
-import { Letter, LetterStatus } from '../entity/Letter';
-import { Session, SessionStatus } from '../entity/Session';
 import { UserRole } from '../entity/User';
+import { Letter, LetterStatus } from '../entity/Letter';
+import { Request, Response, NextFunction } from 'express';
+import { Session, SessionStatus } from '../entity/Session';
+import { createConnection, DeleteResult, getConnection } from 'typeorm';
+
+require('dotenv').config();
 
 const connection = createConnection({
     type: 'mysql',
-    host: 'us-cdbr-east-03.cleardb.com',
-    port: 3306,
-    username: 'bbfb737b2f125d',
-    password: 'a9881502',
-    database: 'heroku_c47c6fe10a176fe',
-    synchronize: true,
     logging: false,
-    entities: ['source/entity/*.ts']
+    synchronize: true,
+    host: process.env.DATABASE_HOST,
+    entities: ['source/entity/*.ts'],
+    database: process.env.DATABASE_NAME,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    port: parseInt(process.env.DATABASE_PORT as string)
 });
 
 const createLetter = async (req: Request, res: Response) => {
