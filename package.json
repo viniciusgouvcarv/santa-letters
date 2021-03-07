@@ -4,7 +4,8 @@
   "description": "",
   "main": "source/server.ts",
   "scripts": {
-    "build": "npm i -g typescript && rm -rf build/ && tsc"
+    "build": "npm i -g typescript && rm -rf build/ && tsc",
+    "start": "nodemon source/server.ts"
   },
   "author": "",
   "license": "ISC",
