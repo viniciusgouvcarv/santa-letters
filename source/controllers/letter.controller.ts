@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import 'reflect-metadata';
-import { createConnection, DeleteResult } from 'typeorm';
+import { createConnection, DeleteResult, getConnection } from 'typeorm';
 import { Letter, LetterStatus } from '../entity/Letter';
 
 const connection = createConnection({
@@ -25,9 +25,14 @@ const createLetter = async (req: Request, res: Response) => {
             letter.description = req.body.description;
             letter.title = req.body.title;
             letter.createdDate = new Date().toISOString();
-
-            const newLetter = await connect.manager.save(letter);
-            return res.status(201).json(newLetter);
+            await getConnection()
+                .createQueryBuilder()
+                .insert()
+                .into(Letter)
+                .values([letter])
+                .execute();
+            // const newLetter = await connect.manager.create(Letter, letter);
+            return res.status(201).json(letter);
         })
         .catch((error) => console.log(error));
 };
@@ -105,9 +110,18 @@ const deleteLetter = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => console.log(error));
 };
 
+const cleanLetters = (req: Request, res: Response) => {
+    connection
+        .then(async (connect) => {
+            await getConnection().dropDatabase();
+        })
+        .catch((error) => console.log(error));
+};
+
 export default {
     readLetter,
     listLetters,
+    cleanLetters,
     deleteLetter,
     createLetter,
     updateLetter,

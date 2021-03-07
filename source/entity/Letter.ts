@@ -11,7 +11,7 @@ export enum LetterStatus {
 @Entity()
 export class Letter {
     @PrimaryGeneratedColumn('uuid')
-    id?: number;
+    id?: string;
 
     @IsString({ always: true })
     @Column({ type: 'varchar', length: 100, nullable: false })
