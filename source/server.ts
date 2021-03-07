@@ -2,13 +2,10 @@ import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import 'reflect-metadata';
-import { createConnection } from 'typeorm';
-
 import config from './config/config';
 import logging from './config/logging';
-import { Letter } from './entity/Letter';
 import letterRoutes from './routes/letter.route';
+import UserRoutes from './routes/user.route';
 
 const NAMESPACE = 'Server';
 const router = express();
@@ -52,6 +49,7 @@ router.use((req, res, next) => {
 
 /** Routes */
 router.use('/letter', letterRoutes);
+router.use('/user', UserRoutes);
 
 /** Error Handling */
 router.use((req, res) => {
