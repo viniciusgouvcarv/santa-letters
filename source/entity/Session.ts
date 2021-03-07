@@ -21,7 +21,7 @@ export class Session {
     @Column({ type: 'varchar', length: 255, nullable: true })
     ip?: string;
 
-    @ManyToOne((_) => User, (user) => user.sessions, { onDelete: 'CASCADE' })
+    @ManyToOne((_) => User, (user) => user.sessions)
     user?: User;
 
     @IsDateString()

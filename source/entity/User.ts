@@ -2,6 +2,7 @@ import { IsDateString, IsEnum, IsString } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, DeleteDateColumn } from 'typeorm';
 import { Session } from './Session';
 import bcrypt from 'bcrypt';
+import { Letter } from './Letter';
 
 export enum UserRole {
     SANTA = 'SANTA',
@@ -32,6 +33,9 @@ export class User {
 
     @OneToMany((_) => Session, (session) => session.user, { onDelete: 'CASCADE' })
     sessions?: Session[];
+
+    @OneToMany((_) => Letter, (letter) => letter.user, { onDelete: 'CASCADE' })
+    letters?: Letter[];
 
     @IsDateString()
     @Column({ type: 'datetime', nullable: false })

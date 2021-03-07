@@ -9,6 +9,5 @@ router.post('/create', controller.createLetter);
 router.put('/update/:id', controller.updateLetter);
 router.patch('/changeStatus/:id', controller.changeLetterStatus);
 router.delete('/delete/:id', controller.deleteLetter);
-router.delete('/clean', controller.cleanLetters);
 
 export = router;

@@ -1,5 +1,6 @@
 import { IsDateString, IsEnum, IsString } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, DeleteDateColumn } from 'typeorm';
+import { User } from './User';
 
 export enum LetterStatus {
     NOT_READ_BY_SANTA = 'NOT_READ_BY_SANTA',
@@ -30,6 +31,9 @@ export class Letter {
     })
     status?: LetterStatus;
 
+    @ManyToOne((_) => User, (user) => user.letters, { onDelete: 'CASCADE' })
+    user?: User;
+
     @IsDateString()
     @Column({ type: 'datetime', nullable: false })
     createdDate?: string;
@@ -39,6 +43,6 @@ export class Letter {
     updatedDate?: string;
 
     @IsDateString()
-    @Column({ type: 'datetime', nullable: true })
+    @DeleteDateColumn({ type: 'datetime', nullable: true })
     deletedDate?: string;
 }

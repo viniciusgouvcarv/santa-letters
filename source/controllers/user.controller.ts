@@ -79,10 +79,10 @@ const logout = async (req: Request, res: Response) => {
     connection
         .then(async (connect) => {
             const session = await connect.manager.findOne(Session, {
-                where: { token: req.body.token, status: SessionStatus.ACTIVE }
+                where: { token: req.headers['x-access-token'], status: SessionStatus.ACTIVE }
             });
 
-            if (!session) return res.status(400).json({ message: 'INVALID_TOKEN' });
+            if (!session) return res.status(401).json({ message: 'INVALID_TOKEN' });
 
             session.status = SessionStatus.LOGOUT;
             await connect.manager.save(session);
@@ -124,12 +124,12 @@ const updateUser = (req: Request, res: Response, next: NextFunction) => {
     connection
         .then(async (connect) => {
             const session = await connect.manager.findOne(Session, {
-                where: { token: req.body.token, status: SessionStatus.ACTIVE },
+                where: { token: req.headers['x-access-token'], status: SessionStatus.ACTIVE },
                 relations: ['user']
             });
 
             if (!session || !session.user)
-                return res.status(400).json({ message: 'INVALID_TOKEN' });
+                return res.status(401).json({ message: 'INVALID_TOKEN' });
 
             if (req.body.username) session.user.username = req.body.username;
             if (req.body.password)
@@ -146,12 +146,12 @@ const changeUserRole = (req: Request, res: Response, next: NextFunction) => {
     connection
         .then(async (connect) => {
             const session = await connect.manager.findOne(Session, {
-                where: { token: req.body.token, status: SessionStatus.ACTIVE },
+                where: { token: req.headers['x-access-token'], status: SessionStatus.ACTIVE },
                 relations: ['user']
             });
 
             if (!session || !session.user)
-                return res.status(400).json({ message: 'INVALID_TOKEN' });
+                return res.status(401).json({ message: 'INVALID_TOKEN' });
 
             if (session.user.role !== UserRole.SANTA)
                 return res.status(400).json({ message: 'ONLY_SANTA_CAN_CHANGE_USER_ROLES' });
@@ -178,12 +178,12 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
     connection
         .then(async (connect) => {
             const session = await connect.manager.findOne(Session, {
-                where: { token: req.body.token, status: SessionStatus.ACTIVE },
+                where: { token: req.headers['x-access-token'], status: SessionStatus.ACTIVE },
                 relations: ['user']
             });
 
             if (!session || !session.user)
-                return res.status(400).json({ message: 'INVALID_TOKEN' });
+                return res.status(401).json({ message: 'INVALID_TOKEN' });
 
             await connect.manager.softDelete(User, session.user);
             return res.status(204).json(DeleteResult);
