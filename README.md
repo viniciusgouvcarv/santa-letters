@@ -1,6 +1,6 @@
 # Santa's Letters API
 
-Essa API RESTful é um teste técnico para o processo seletivo de Backend Developer da Zappts, cujo objetivo era desenvolver um CRUD de envio e leitura de cartinhas de Natal para o Papai Noel e disponibilizá-lo como uma REST API.
+Essa API RESTful é um teste técnico para o processo seletivo de Backend Developer da Zappts, cujo objetivo era desenvolver um CRUD de envio e leitura de cartinhas de Natal para o Papai Noel e disponibilizá-lo como uma REST API. A URL da API é `https://santa-letters-api.herokuapp.com/`.
 
 # Passo-a-Passo
 
