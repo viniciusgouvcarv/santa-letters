@@ -4,7 +4,7 @@
   "description": "",
   "main": "source/server.ts",
   "scripts": {
-    "build": "rm -rf build/ && tsc"
+    "build": "npm i -g typescript && rm -rf build/ && tsc"
   },
   "author": "",
   "license": "ISC",
